@@ -8,15 +8,15 @@ function vimeoPlayerPresent() {
     return false;
 }
 
-let dataLayer = (typeof(dataLayer) !== "undefined" && dataLayer instanceof Array) ? dataLayer : [];
-let videoLabels=[];
-let lastP=[];
+var dataLayer = (typeof(dataLayer) !== "undefined" && dataLayer instanceof Array) ? dataLayer : [];
+var videoLabels=[];
+var lastP=[];
 
-//we declare letiables that will hold information about the video being played
-let _playerTitle = {} 
-let _playerAuthor = {} 
-let _playerAuthorURL = {}
-let _playerUploadDate = {}; 
+//we declare variables that will hold information about the video being played
+var _playerTitle = {} 
+var _playerAuthor = {} 
+var _playerAuthorURL = {}
+var _playerUploadDate = {}; 
 
 // Launch Vimeo Video Listener
 try{
@@ -33,15 +33,15 @@ try{
 // Initialize the Vimeo player
 function init(){
     try{
-        let player=document.getElementsByTagName("iframe");
-        for (let i = 0; i < player.length; ++i) {
-            let url=player[i].getAttribute("src");
+        var player=document.getElementsByTagName("iframe");
+        for (var i = 0; i < player.length; ++i) {
+            var url=player[i].getAttribute("src");
             if(/player\.vimeo\.com\/video/.test(url)){ // vimeo iframe found
                 
                 if(!player[i].hasAttribute("id")){// id attribute missing
                     player[i].setAttribute("id","vimeo_id_"+i); // add id attribute
                 } 
-                let urlUpdated=false;
+                var urlUpdated=false;
                 if(!/api=/.test(url)){ // check to see if api parameter is in src attribute
                     url=updateUrl(url,"api",1);
                     urlUpdated=true;
@@ -78,7 +78,7 @@ function updateUrl(url,param,value){
 // Handle messages received from the player
 function onMessageReceived(e) {
     try{
-        let data = e.data;
+        var data = e.data;
         if(typeof data === "string"){
             data = JSON.parse(data);
         }
@@ -104,7 +104,7 @@ function onMessageReceived(e) {
 // Helper function for sending a message to the player
 function post(action, value) {
     try{
-        let data = {
+        var data = {
             method: action
         }
 
@@ -112,14 +112,14 @@ function post(action, value) {
             data.value = value;
         }
 
-        let message = JSON.stringify(data);
+        var message = JSON.stringify(data);
         console.log(message);
 
-        let player = document.getElementsByTagName("iframe");
-        let url = "";
-        let prot = "";
+        var player = document.getElementsByTagName("iframe");
+        var url = "";
+        var prot = "";
 
-        for (let i = 0; i < player.length; ++i) {
+        for (var i = 0; i < player.length; ++i) {
             url=player[i].getAttribute("src");
             if(/player\.vimeo\.com\/video/.test(url)){
                 // Check if protocol exists
@@ -146,7 +146,7 @@ function getLabel(id){
 
 //our function that will use the Vimeo oEmbed API to retrieve additional information about the video
 function getVimeoInfo(url, callback) {
-    let script = document.createElement('script');
+    var script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = url;
     document.getElementsByTagName('body')[0].appendChild(script);
@@ -176,7 +176,7 @@ function onReady(data) {
 
 function onPlay(data){
     try{
-        let t = data.data.duration - data.data.seconds <= 1.5 ? 1 : (Math.floor(data.data.seconds / data.data.duration * 4) / 4).toFixed(2); 
+        var t = data.data.duration - data.data.seconds <= 1.5 ? 1 : (Math.floor(data.data.seconds / data.data.duration * 4) / 4).toFixed(2); 
         dataLayer.push({
             event: "video",
             video_action: "play",
@@ -191,7 +191,7 @@ function onPlay(data){
 
 function onPause(data){
     try{
-        let t = data.data.duration - data.data.seconds <= 1.5 ? 1 : (Math.floor(data.data.seconds / data.data.duration * 4) / 4).toFixed(2); 
+        var t = data.data.duration - data.data.seconds <= 1.5 ? 1 : (Math.floor(data.data.seconds / data.data.duration * 4) / 4).toFixed(2); 
         dataLayer.push({
             event: "video",
             video_action: "pause",
@@ -207,7 +207,7 @@ function onPause(data){
 // Track progress: 25%, 50%, 75%, 100%
 function onPlayProgress(data) {
     try{
-        let t = data.data.duration - data.data.seconds <= 1.5 ? 1 : (Math.floor(data.data.seconds / data.data.duration * 4) / 4).toFixed(2); 
+        var t = data.data.duration - data.data.seconds <= 1.5 ? 1 : (Math.floor(data.data.seconds / data.data.duration * 4) / 4).toFixed(2); 
         if (!lastP[data.player_id] || t > lastP[data.player_id]) {
             lastP[data.player_id]=t;
             if (parseFloat(t) != 0){
