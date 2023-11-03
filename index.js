@@ -34,6 +34,7 @@ try{
 function init(){
     try{
         var player=document.getElementsByTagName("iframe");
+        console.log(player);
         for (var i = 0; i < player.length; ++i) {
             var url=player[i].getAttribute("src");
             if(/player\.vimeo\.com\/video/.test(url)){ // vimeo iframe found
