@@ -39,6 +39,8 @@ function init(){
             var url=player[i].getAttribute("src");
             if(/player\.vimeo\.com\/video/.test(url)){ // vimeo iframe found
                 
+                console.log("Vimeo iframe found");
+
                 if(!player[i].hasAttribute("id")){// id attribute missing
                     player[i].setAttribute("id","vimeo_id_"+i); // add id attribute
                 } 
@@ -80,6 +82,7 @@ function updateUrl(url,param,value){
 function onMessageReceived(e) {
     try{
         var data = e.data;
+        console.log(data);
         if(typeof data === "string"){
             data = JSON.parse(data);
         }
