@@ -1,13 +1,3 @@
-// Detect if Vimeo player is present
-function vimeoPlayerPresent() {
-    for (var e = document.getElementsByTagName("iframe"), x=0; x < e.length; x++) {
-        if (/^https?:\/\/player.vimeo.com/.test(e[x].src)) {
-            return true;
-        }
-    }
-    return false;
-}
-
 var dataLayer = (typeof(dataLayer) !== "undefined" && dataLayer instanceof Array) ? dataLayer : [];
 var videoLabels=[];
 var lastP=[];
@@ -34,13 +24,10 @@ try{
 function init(){
     try{
         var player=document.getElementsByTagName("iframe");
-        console.log(player);
         for (var i = 0; i < player.length; ++i) {
             var url=player[i].getAttribute("src");
             if(/player\.vimeo\.com\/video/.test(url)){ // vimeo iframe found
-                
                 console.log("Vimeo iframe found");
-
                 if(!player[i].hasAttribute("id")){// id attribute missing
                     player[i].setAttribute("id","vimeo_id_"+i); // add id attribute
                 } 
@@ -82,7 +69,6 @@ function updateUrl(url,param,value){
 function onMessageReceived(e) {
     try{
         var data = e.data;
-        console.log(data);
         if(typeof data === "string"){
             data = JSON.parse(data);
         }
